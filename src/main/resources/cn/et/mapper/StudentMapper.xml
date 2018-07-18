@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="cn.et.mapper.StudentMapper">
+	<resultMap type="Student" id="ClassesMap">
+  		<id column="s_id" property="s_id"/>
+  	</resultMap>
+
+  <insert id="addStudent">
+  		insert into student(s_name,c_id) values(#{s_name},#{c_id})
+  </insert>
+  
+   <insert id="deleteStudent">
+		delete from student where s_id=#{s_id}
+  </insert>
+  
+  
+  <select id="findSells" resultType="map">
+ 	 select s.s_id,s.s_name,c.c_name from student s join classes c where s.c_id = c.c_id
+
+	<if test="search!=null">
+		and concat(s.s_id,s.s_name) like '%${search}%'
+	</if>
+ 
+  	limit ${offset},${limit}
+  </select>
+  
+  <select id="sums" resultType="int">
+  		select count(*) from student where concat(s_id,s_name) like '%${search}%'
+  </select>
+  
+  <update id="update">
+  		update student set s_name=#{s_name},c_id=#{c_id} where s_id = #{s_id}
+  </update>
+  
+    <insert id="deleteStudents">
+		delete from student where c_id=#{c_id}
+  </insert>
+  
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="cn.et.mapper.ClassesMapper">
+	<resultMap type="Classes" id="ClassesMap">
+  		<id column="c_id" property="c_id"/>
+  	</resultMap>
+
+  <insert id="addClasses">
+  		insert into classes(c_name,c_number) values(#{c_name},#{c_number})
+  </insert>
+  
+   <insert id="deleteClasses">
+		delete from classes where c_id=#{c_id}
+  </insert>
+  
+   <insert id="UpdateClasses">
+   		update classes set c_name=#{classes.getC_name} where c_id=#{classes.getC_id}
+  </insert>
+  
+  <insert id="queryClasses">
+  		select * from classes where c_id=#{c_id}
+  </insert>
+  
+  <select id="findSells" resultType="map">
+ 	 select * from classes where 1 = 1
+
+	<if test="search!=null">
+		and concat(c_id,c_name) like '%${search}%'
+	</if>
+ 
+  	limit ${offset},${limit}
+  </select>
+  
+  <select id="sums" resultType="int">
+  		select count(*) from classes where concat(c_id,c_name) like '%${search}%'
+  </select>
+  
+   <insert id="selectAllClasses">
+  		select * from classes where c_name like '%${c_name}%' limit ${index},${limit}
+  </insert>
+  
+  <insert id="selectAllClassesCount">
+  		select count(*) from classes where c_name like '%${c_name}%'
+  </insert>
+  
+  <update id="update">
+  		update classes set c_name=#{c_name},c_number=#{c_number} where c_id = #{c_id}
+  </update>
+  
+  <select id="queryClassesId" resultType="map">
+  		select * from classes where c_id = #{c_id}
+  </select>
+</mapper>
